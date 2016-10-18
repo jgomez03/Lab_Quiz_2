@@ -59,6 +59,14 @@ write_csv(analytic_data_male,path="analytic_data_male.csv")
 #female
 analytic_data.female <- filter(analytic_data, sex=="Female")
 analytic_data_female <- select(analytic_data.female, pos_affect, neg_affect, Neuroticism, Extraversion)
+
+#approach 2 for creating subsets of data
+#could also do analytic_data_male <- select(analytic_data_male, -sex) 
+
+#OR analytic_data_male <- analytic_data %>% filter(sex=="Male") %>% select(-sex) #this is the best approach
+#   analytic_data_female <- analytic_data %>% filter(sex=="Female") %>% select(-sex)
+#%>$ means AND THEN
+
 #save
 write_csv(analytic_data_male,path="analytic_data_female.csv")
 
@@ -85,7 +93,7 @@ analytic_data_female <- read_csv("analytic_data_female.csv")
 
 #make histogram - female data, neuroticism
 my.hist <- ggplot(analytic_data_female,aes(Neuroticism))
-my.hist <- my.hist + geom_histogram(aes(y= ..count..), binwidth=1, fill="black", color="black")
+my.hist <- my.hist + geom_histogram(aes(y= ..count..), fill="black", color="black")
 my.hist <- my.hist + labs(title="Neuroticism Distribution",x="Neuroticism",y="Frequency")
 my.hist <- my.hist + coord_cartesian(xlim=c(0,30), ylim=c(0,1200))
 my.hist <- my.hist + theme_classic()
@@ -93,7 +101,7 @@ my.hist <- my.hist + theme_classic()
 my.hist <- my.hist + theme(axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
                            axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'))
 
-my.hist <- my.hist + scale_x_continuous( breaks = seq(0,25,by=5) )
+my.hist <- my.hist + scale_x_continuous(breaks = seq(0,25,by=5) )
 
 
 print(my.hist)
